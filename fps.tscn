@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://302mkin1qqye"]
+
+[ext_resource type="Script" uid="uid://dbppyisfefyji" path="res://fps.gd" id="1_3w8p6"]
+
+[node name="fps" type="Label"]
+script = ExtResource("1_3w8p6")
