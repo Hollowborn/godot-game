@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=3 uid="uid://t07h356brhlu"]
+
+[ext_resource type="Script" uid="uid://mf7umvxynmsm" path="res://menu.gd" id="1_menu"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer#Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 308.0
+offset_top = 118.0
+offset_right = 862.0
+offset_bottom = 185.0
+theme_override_font_sizes/font_size = 48
+text = "The Grumpy Blacksmith"
+horizontal_alignment = 1
+
+[node name="VBoxContainer#PlayButton" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+offset_left = 483.0
+offset_top = 242.0
+offset_right = 683.0
+offset_bottom = 292.0
+action_mode = 0
+text = "Play"
+
+[node name="VBoxContainer#OptionsButton" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+offset_left = 482.0
+offset_top = 324.0
+offset_right = 682.0
+offset_bottom = 374.0
+text = "Options"
+
+[node name="VBoxContainer#ExitButton" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+offset_left = 481.0
+offset_top = 407.0
+offset_right = 681.0
+offset_bottom = 457.0
+text = "Exit"
+
+[connection signal="pressed" from="VBoxContainer#PlayButton" to="." method="_on_v_box_container_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer#OptionsButton" to="." method="_on_v_box_container_options_button_pressed"]
+[connection signal="pressed" from="VBoxContainer#ExitButton" to="." method="_on_v_box_container_exit_button_pressed"]
