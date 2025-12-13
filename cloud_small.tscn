@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://deqri8bdo5oe4"]
+
+[ext_resource type="PackedScene" uid="uid://by1gbqq0vksj8" path="res://assets/decoration/nature/cloud_small.gltf" id="1_u0sit"]
+
+[node name="cloud_small2" instance=ExtResource("1_u0sit")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)

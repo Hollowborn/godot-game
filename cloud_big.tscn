@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://o1auexqnvr7h"]
+
+[ext_resource type="PackedScene" uid="uid://bcw0xrl5r4wkr" path="res://assets/decoration/nature/cloud_big.gltf" id="1_jewuu"]
+[ext_resource type="Script" uid="uid://c1r5c7fbuqn0d" path="res://cloud.gd" id="2_script"]
+
+[node name="cloud_big2" instance=ExtResource("1_jewuu")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 30, 0)
+top_level = true
+script = ExtResource("2_script")

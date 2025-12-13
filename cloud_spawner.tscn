@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3y4x506a7b8"]
+
+[ext_resource type="Script" path="res://cloud_spawner.gd" id="1_spawner"]
+[ext_resource type="PackedScene" uid="uid://o1auexqnvr7h" path="res://cloud_big.tscn" id="2_cloud"]
+
+[node name="CloudSpawner" type="Node3D"]
+script = ExtResource("1_spawner")
+cloud_scene = ExtResource("2_cloud")
+cloud_count = 50
+spawn_extents = Vector3(300, 30, 300)
