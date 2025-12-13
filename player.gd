@@ -4,6 +4,11 @@ extends CharacterBody3D
 @export var acceleration = 10.0
 @export var rotation_speed = 10.0 # How fast the character turns
 
+# Animation
+@onready var animation_tree = $AnimationTree
+@onready var state_machine = animation_tree.get('parameters/playback')
+var is_attacking = false
+
 # Gravity
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -38,10 +43,35 @@ func _physics_process(delta):
 			var target_angle = atan2(velocity.x, velocity.z)
 			# Lerp_angle handles the "wrapping" from 360 to 0 degrees smoothly
 			rotation.y = lerp_angle(current_angle, target_angle, rotation_speed * delta)
-			
+		if position.y < -10:
+			position.y = 10
 	else:
 		# Decelerate when no input
 		velocity.x = move_toward(velocity.x, 0, acceleration * delta)
 		velocity.z = move_toward(velocity.z, 0, acceleration * delta)
-
+	
 	move_and_slide()
+	
+	if(Input.is_action_pressed("attack")):
+		is_attacking = true
+		
+	handle_animation()
+	
+
+
+func handle_animation():
+	
+	print(is_attacking)
+	if is_attacking:
+		state_machine.travel("chop")
+		
+		is_attacking = false
+		
+	elif velocity.length() > 2 and velocity.length() < 5 :
+		# If we are moving, travel to Run state
+		state_machine.travel("walk")
+	elif velocity.length() >= 5:
+		state_machine.travel("run")
+	else:
+		# If standing still, travel to Idle state
+		state_machine.travel("idle")
