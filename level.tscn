@@ -48,7 +48,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u52ul"]
-size = Vector3(60, 1, 60)
+size = Vector3(65.0776, 1, 64.0918)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oi3di"]
 albedo_color = Color(0.270588, 0.490196, 0.211765, 1)
@@ -140,7 +140,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.049, -1.61032, -9.32819)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4321, 1.56699, 9.96821)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8933, 1.65142, 7.92231)
 shape = SubResource("BoxShape3D_u52ul")
 
 [node name="plane" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/ground"]
