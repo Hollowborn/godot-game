@@ -7,12 +7,6 @@ extends StaticBody3D
 
 func _ready():
 	print('les go!')
-
-
-
-
-
-
 func take_damage():
 	health -= 1
 	# Juice: Shake the tree slightly when hit!
@@ -37,5 +31,10 @@ func spawn_logs():
 
 
 func _on_mouse_entered() -> void:
-	print('touche ')
-	take_damage() # Replace with function body.
+	print('Tree Hovered')
+	# Find player (Assuming single player in "player" group, or use find_first_node_in_group)
+	var player = get_tree().get_first_node_in_group("player") 
+	if player:
+		player.set_target(self)
+		print(player)	
+	

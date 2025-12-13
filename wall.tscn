@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b114qd6csv2hu"]
+
+[ext_resource type="PackedScene" uid="uid://bwhnkqujvvwac" path="res://assets/buildings/neutral/fence_wood_straight.gltf" id="1_xxgf6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y4f30"]
+size = Vector3(0.420898, 2.72754, 5.79517)
+
+[node name="fence_wood_straight2" instance=ExtResource("1_xxgf6")]
+
+[node name="fence_wood_straight" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.97861, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+collision_layer = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0327575, 0.86377, -0.0465088)
+shape = SubResource("BoxShape3D_y4f30")
