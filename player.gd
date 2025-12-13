@@ -2,76 +2,116 @@ extends CharacterBody3D
 
 @export var speed = 5.0
 @export var acceleration = 10.0
-@export var rotation_speed = 10.0 # How fast the character turns
+@export var rotation_speed = 10.0 
 
 # Animation
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get('parameters/playback')
-var is_attacking = false
+@onready var hitbox = $Hitbox
+
+# Items/Accessories
+@onready var axe_mesh = $"Model/Barbarian/Rig/Skeleton3D/1H_Axe"
+
+# Inventory
+var wood = 0
+var is_moving = false
 
 # Gravity
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+func _ready():
+	add_to_group("player")
+	input_ray_pickable = true 
+
 func _physics_process(delta):
 	# 1. Apply Gravity
-
+	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
-	# 2. Get Input (Returns a vector between -1 and 1)
-	# This naturally handles 8-way movement (Up, Down, Left, Right, and Diagonals)
-	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
-	# 3. Calculate Direction relative to the WORLD (Global), not the Player
-	# We create a Vector3 on the floor (X and Z axis).
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+		velocity.y = speed - 0.5
+	# 2. ANIMATION LOCK (The "Bonk" Priority)
+	# If we are chopping, stop moving and don't read inputs
+	var current_state = state_machine.get_current_node()
+	if current_state == "chop":
+		# Decelerate quickly to a stop
+		velocity.x = move_toward(velocity.x, 0, acceleration * delta * 2)
+		velocity.z = move_toward(velocity.z, 0, acceleration * delta * 2)
+		move_and_slide()
+		return # Stop here! Do not run movement logic below.
+
+	# 3. MOVEMENT INPUT (Manual Control Only)
+	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction = Vector3(input_dir.x, 0, input_dir.y).normalized()
 	
-	# 4. Adjust for Isometric Camera (Rotate 45 degrees on Y axis)
-	# If your camera is rotated -45 degrees, rotate input by -45 (or 45 depending on setup).
-	# Try 45 first. If controls are inverted, change to -45.
+	# Rotate input 45 degrees for Isometric view
 	direction = direction.rotated(Vector3.UP, deg_to_rad(45))
+	
+	# Attack Input
+	if Input.is_action_just_pressed("attack"): # Ensure "attack" is mapped in Input Map!
+		start_attack()
+		# We don't return here; the next frame's physics_process will catch the "chop" state lock above.
 
+	# Velocity Calculation
 	if direction:
-		# 5. Move Logic (Smooth acceleration)
 		velocity.x = move_toward(velocity.x, direction.x * speed, acceleration * delta)
 		velocity.z = move_toward(velocity.z, direction.z * speed, acceleration * delta)
 		
-		# 6. Rotation Logic (Smooth rotation instead of instant snapping)
-		# We check if the direction is significant to avoid "looking at nothing" errors
+		# Smooth Rotation
 		if Vector2(velocity.x, velocity.z).length() > 0.1:
 			var current_angle = rotation.y
 			var target_angle = atan2(velocity.x, velocity.z)
-			# Lerp_angle handles the "wrapping" from 360 to 0 degrees smoothly
 			rotation.y = lerp_angle(current_angle, target_angle, rotation_speed * delta)
-		if position.y < -10:
-			position.y = 10
 	else:
-		# Decelerate when no input
 		velocity.x = move_toward(velocity.x, 0, acceleration * delta)
 		velocity.z = move_toward(velocity.z, 0, acceleration * delta)
 	
+	# Safety net for falling off map
+	if position.y < -10:
+		position.y = 10
+	
 	move_and_slide()
 	
-	if(Input.is_action_pressed("attack")):
-		is_attacking = true
-		
+	# 4. Handle Animation State
 	handle_animation()
-	
 
+func toggle_weapon():
+	axe_mesh.visible = !axe_mesh.visible
+
+func start_attack():
+	# Don't restart if already chopping
+	if state_machine.get_current_node() == "chop": return
+
+	state_machine.travel("chop")
+	
+	# Wait for the swing to hit the ground (Adjust 0.2 to match your animation)
+	await get_tree().create_timer(0.2).timeout 
+	
+	# Check if we are still chopping (in case animation was cancelled)
+	if state_machine.get_current_node() == "chop":
+		# Hitbox Area Logic
+		var bodies = hitbox.get_overlapping_bodies()
+		for body in bodies:
+			if body.has_method("take_damage"):
+				body.take_damage()
+				# Optional: Add "juice" here like screen shake
 
 func handle_animation():
-	
-	print(is_attacking)
-	if is_attacking:
-		state_machine.travel("chop")
+	# If we are doing an action (Chop), do not interfere
+	if state_machine.get_current_node() == "chop": return
 		
-		is_attacking = false
-		
-	elif velocity.length() > 2 and velocity.length() < 5 :
-		# If we are moving, travel to Run state
+	# Simple Movement State Switching
+	if velocity.length() > 0.1:
+		# If you have a separate run/walk, you can check speed here
+		# For now, just "run"
 		state_machine.travel("walk")
-	elif velocity.length() >= 5:
-		state_machine.travel("run")
 	else:
-		# If standing still, travel to Idle state
 		state_machine.travel("idle")
+
+func add_wood(amount):
+	wood += amount
+	print("Wood collected! Total: ", wood)
+
+func _on_mouse_entered() -> void:
+	print('hovered')
