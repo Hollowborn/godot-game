@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://c581nbvhpsu17"]
+
+[ext_resource type="PackedScene" uid="uid://dgobqfsa6f33u" path="res://assets/resources/Wood_Log_A.gltf" id="1_bcd4v"]
+
+[node name="Wood_Log_A2" instance=ExtResource("1_bcd4v")]
