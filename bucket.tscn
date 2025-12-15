@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://np1oiqtoq0sv"]
+
+[ext_resource type="PackedScene" uid="uid://c8o3ea25x1j4l" path="res://assets/decoration/props/bucket_water.gltf" id="1_bgj3b"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_caem6"]
+radius = 0.354787
+height = 0.893195
+
+[node name="bucket_water2" instance=ExtResource("1_bgj3b")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0136726, 0.27098, -0.0410773)
+shape = SubResource("CapsuleShape3D_caem6")
