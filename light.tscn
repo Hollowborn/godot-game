@@ -1,0 +1,119 @@
+[gd_scene load_steps=11 format=3 uid="uid://cbk2ecjh5rxau"]
+
+[ext_resource type="Script" uid="uid://doy1xlca7054g" path="res://omni_light_3d.gd" id="1_5qqhr"]
+[ext_resource type="PackedScene" uid="uid://dgobqfsa6f33u" path="res://assets/resources/Wood_Log_A.gltf" id="1_hdgcg"]
+[ext_resource type="PackedScene" uid="uid://c0ir2w4re4l78" path="res://assets/resources/Stone_Chunks_Small.gltf" id="2_we4ua"]
+
+[sub_resource type="Gradient" id="Gradient_we4ua"]
+colors = PackedColorArray(0.869533, 0.652262, 0.306518, 1, 0.548244, 0.176166, 0.160655, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5qqhr"]
+gradient = SubResource("Gradient_we4ua")
+width = 128
+
+[sub_resource type="Curve" id="Curve_eaa0b"]
+_data = [Vector2(0.300971, 0.134832), 0.0, 0.0, 0, 0, Vector2(0.737864, 0.426966), 0.0, 0.0, 0, 0, Vector2(0.941748, 0.224719), -0.920582, -0.920582, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_hdgcg"]
+curve = SubResource("Curve_eaa0b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_we4ua"]
+direction = Vector3(0, 1, 0)
+spread = 15.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 4, 0)
+scale_curve = SubResource("CurveTexture_hdgcg")
+color_ramp = SubResource("GradientTexture1D_5qqhr")
+turbulence_noise_strength = 4.55
+turbulence_noise_scale = 8.75
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_njlvs"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.880315, 0.544214, 0.315641, 1)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_5qqhr"]
+material = SubResource("StandardMaterial3D_njlvs")
+size = Vector2(0.3, 0.3)
+
+[node name="light" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.92539, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.846241, 0)
+light_color = Color(0.817709, 0.459983, 0.186034, 1)
+light_energy = 10.145
+light_indirect_energy = 1.585
+light_size = 1.0
+script = ExtResource("1_5qqhr")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.673495, 0)
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_we4ua")
+draw_pass_1 = SubResource("QuadMesh_5qqhr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="Wood_Log_A2" parent="MeshInstance3D" instance=ExtResource("1_hdgcg")]
+transform = Transform3D(0.444595, 0.210995, 0.497812, -0.140547, 0.667444, -0.15737, -0.522094, -1.04308e-08, 0.466281, 0.315175, 0.126188, 0.43593)
+
+[node name="Wood_Log_A3" parent="MeshInstance3D" instance=ExtResource("1_hdgcg")]
+transform = Transform3D(0.525638, 0, -0.289318, 0.197569, 0.438319, 0.358947, 0.211356, -0.409727, 0.383995, 0.162584, 0.0951123, -0.401783)
+
+[node name="Wood_Log_A6" parent="MeshInstance3D" instance=ExtResource("1_hdgcg")]
+transform = Transform3D(-0.167664, -0.317882, 0.480458, 0.197569, 0.438319, 0.358947, -0.541161, 0.25851, -0.0178113, -0.686524, 0.129549, -0.15646)
+
+[node name="Wood_Log_A8" parent="MeshInstance3D" instance=ExtResource("1_hdgcg")]
+transform = Transform3D(-0.563188, 0.193239, 0.0740176, 0.197569, 0.438319, 0.358947, 0.0615318, 0.361297, -0.475056, -0.316467, 0.040714, 0.418507)
+
+[node name="Wood_Log_A7" parent="MeshInstance3D" instance=ExtResource("1_hdgcg")]
+transform = Transform3D(0.138767, 0.331127, -0.480727, 0.197569, 0.438319, 0.358947, 0.549281, -0.241312, -0.00766046, 0.28418, -0.00411463, -0.0604952)
+
+[node name="Wood_Log_A4" parent="MeshInstance3D" instance=ExtResource("1_hdgcg")]
+transform = Transform3D(0.483342, -0.12462, -0.559777, -0.15403, 0.676968, -0.283707, 0.552409, 0.2978, 0.410682, -0.635612, 0.104882, 0.268169)
+
+[node name="Wood_Log_A5" parent="MeshInstance3D" instance=ExtResource("1_hdgcg")]
+transform = Transform3D(0.686188, -0.0045082, 0.328485, -0.167561, 0.727485, 0.229687, -0.375592, -0.332785, 0.497657, -0.463824, 0.164207, -0.588586)
+
+[node name="Stone_Chunks_Small2" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.494822, 0, -0.868994, 0, 1, 0, 0.868994, 0, 0.494822, 1.20596, -0.216626, -0.429381)
+
+[node name="Stone_Chunks_Small9" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(-0.540828, -3.87365e-08, -0.841133, -1.21785e-09, 1, -4.52697e-08, 0.841133, -2.34587e-08, -0.540828, -1.54416, -0.216626, -0.378136)
+
+[node name="Stone_Chunks_Small3" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(-0.382438, -3.91417e-09, -0.603137, -1.88799e-09, 0.714166, -3.43758e-09, 0.603137, -2.46361e-10, -0.382438, 1.2572, -0.216626, 0.475937)
+
+[node name="Stone_Chunks_Small4" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.359434, -2.02026e-09, -0.617123, -1.88799e-09, 0.714166, -3.43758e-09, 0.617123, 3.36155e-09, 0.359434, -1.41605, -0.216626, 0.407611)
+
+[node name="Stone_Chunks_Small5" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.359434, -2.02026e-09, -0.617123, -1.88799e-09, 0.714166, -3.43758e-09, 0.617123, 3.36155e-09, 0.359434, -0.929229, -0.216626, 0.9713)
+
+[node name="Stone_Chunks_Small10" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.70537, 8.81923e-09, -0.111745, -9.1453e-09, 0.714166, -1.36404e-09, 0.111745, 2.7782e-09, 0.70537, -0.134941, -0.216626, -1.3347)
+
+[node name="Stone_Chunks_Small12" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.557684, -9.15661e-09, -0.446118, 5.47063e-09, 0.714166, -7.81958e-09, 0.446118, 2.68888e-09, 0.557684, 0.556858, -0.216626, -1.08702)
+
+[node name="Stone_Chunks_Small11" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.630858, 3.279e-09, 0.334741, -1.88799e-09, 0.714166, -3.43758e-09, -0.334741, 2.15165e-09, 0.630858, -0.903607, -0.216626, -1.12972)
+
+[node name="Stone_Chunks_Small6" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.712432, 1.64397e-09, -0.0497431, 0.0114392, 0.695026, 0.163834, 0.0484099, -0.164233, 0.693338, -0.203266, -0.216626, 1.2446)
+
+[node name="Stone_Chunks_Small7" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.692403, -0.0508571, 0.167404, 0.0114392, 0.695026, 0.163834, -0.174584, -0.15616, 0.674661, 0.5654, -0.216626, 1.12503)
+
+[node name="Stone_Chunks_Small8" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
+transform = Transform3D(0.0730384, 0.161857, -0.691738, 0.0114392, 0.695025, 0.163834, 0.710329, -0.0278354, 0.0684884, 1.0266, -0.216626, 0.85173)
