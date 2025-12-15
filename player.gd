@@ -16,6 +16,9 @@ extends CharacterBody3D
 var wood = 0
 var is_moving = false
 
+# Signals
+signal wood_changed(new_amount)
+
 # Gravity
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -34,12 +37,13 @@ func _physics_process(delta):
 	# 2. ANIMATION LOCK (The "Bonk" Priority)
 	# If we are chopping, stop moving and don't read inputs
 	var current_state = state_machine.get_current_node()
-	if current_state == "chop":
-		# Decelerate quickly to a stop
-		velocity.x = move_toward(velocity.x, 0, acceleration * delta * 2)
-		velocity.z = move_toward(velocity.z, 0, acceleration * delta * 2)
-		move_and_slide()
-		return # Stop here! Do not run movement logic below.
+	#if current_state == "chop":
+		## Decelerate quickly to a stop
+		#velocity.x = move_toward(velocity.x, 0, acceleration * delta * 2)
+		#velocity.z = move_toward(velocity.z, 0, acceleration * delta * 2)
+		#move_and_slide()
+#
+		#return # Stop here! Do not run movement logic below.
 
 	# 3. MOVEMENT INPUT (Manual Control Only)
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -49,8 +53,7 @@ func _physics_process(delta):
 	direction = direction.rotated(Vector3.UP, deg_to_rad(45))
 	
 	# Attack Input
-	if Input.is_action_just_pressed("attack"): # Ensure "attack" is mapped in Input Map!
-		start_attack()
+	
 		# We don't return here; the next frame's physics_process will catch the "chop" state lock above.
 
 	# Velocity Calculation
@@ -86,23 +89,25 @@ func start_attack():
 	state_machine.travel("chop")
 	
 	# Wait for the swing to hit the ground (Adjust 0.2 to match your animation)
-	await get_tree().create_timer(0.2).timeout 
+	await get_tree().create_timer(1).timeout 
 	
 	# Check if we are still chopping (in case animation was cancelled)
-	if state_machine.get_current_node() == "chop":
+	#if state_machine.get_current_node() == "chop":
 		# Hitbox Area Logic
-		var bodies = hitbox.get_overlapping_bodies()
-		for body in bodies:
-			if body.has_method("take_damage"):
-				body.take_damage()
+	var bodies = hitbox.get_overlapping_bodies()
+	for body in bodies:
+		if body.has_method("take_damage"):
+			body.take_damage()
 				# Optional: Add "juice" here like screen shake
 
 func handle_animation():
 	# If we are doing an action (Chop), do not interfere
-	if state_machine.get_current_node() == "chop": return
+	
 		
 	# Simple Movement State Switching
-	if velocity.length() > 0.1:
+	if Input.is_action_just_pressed("attack"):
+		start_attack()
+	elif velocity.length() > 0.1:
 		# If you have a separate run/walk, you can check speed here
 		# For now, just "run"
 		state_machine.travel("walk")
@@ -112,6 +117,7 @@ func handle_animation():
 func add_wood(amount):
 	wood += amount
 	print("Wood collected! Total: ", wood)
+	wood_changed.emit(wood)
 
 func _on_mouse_entered() -> void:
 	print('hovered')
