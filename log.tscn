@@ -12,8 +12,8 @@ bounce = 0.5
 size = Vector3(0.219971, 0.239502, 0.395874)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vgnok"]
-radius = 0.21488
-height = 1.19301
+radius = 0.482833
+height = 1.61735
 
 [node name="log" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21938, 0)

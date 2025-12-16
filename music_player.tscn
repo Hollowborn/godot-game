@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnmj40rieddhs"]
+
+[ext_resource type="AudioStream" uid="uid://cki8hfxyfwy83" path="res://assets/music/music1.ogg" id="1_fvyft"]
+
+[node name="music_player" type="AudioStreamPlayer"]
+stream = ExtResource("1_fvyft")
+volume_db = -12.17
+parameters/looping = false

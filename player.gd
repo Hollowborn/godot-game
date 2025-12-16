@@ -21,7 +21,7 @@ signal wood_changed(new_amount)
 
 # Gravity
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-
+var current_gravity = gravity
 func _ready():
 	add_to_group("player")
 	input_ray_pickable = true 
@@ -30,7 +30,7 @@ func _physics_process(delta):
 	# 1. Apply Gravity
 	
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		velocity.y -= current_gravity * delta
 	
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = speed - 0.5
@@ -99,7 +99,7 @@ func start_attack():
 		if body.has_method("take_damage"):
 			body.take_damage()
 				# Optional: Add "juice" here like screen shake
-
+	
 func handle_animation():
 	# If we are doing an action (Chop), do not interfere
 	
@@ -111,13 +111,32 @@ func handle_animation():
 		# If you have a separate run/walk, you can check speed here
 		# For now, just "run"
 		state_machine.travel("walk")
+		
 	else:
 		state_machine.travel("idle")
 
 func add_wood(amount):
 	wood += amount
-	print("Wood collected! Total: ", wood)
+	$log_land.play()
 	wood_changed.emit(wood)
 
 func _on_mouse_entered() -> void:
 	print('hovered')
+	
+func enter_water():
+	# Make gravity negative so he floats up slightly, or just low to sink slowly
+	current_gravity = -2.0 
+	# Optional: Slow him down
+	speed = 2.0
+
+func exit_water():
+	current_gravity = gravity
+	speed = 5.0 # Reset to your normal speed	
+
+
+func _on_woterphysics_body_entered(body: Node3D) -> void:
+	enter_water() # Replace with function body.
+
+
+func _on_woterphysics_body_exited(body: Node3D) -> void:
+	exit_water() # Replace with function body.

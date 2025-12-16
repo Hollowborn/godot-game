@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://t07h356brhlu"]
+[gd_scene load_steps=4 format=3 uid="uid://t07h356brhlu"]
 
 [ext_resource type="Script" uid="uid://mf7umvxynmsm" path="res://menu.gd" id="1_menu"]
+[ext_resource type="FontFile" uid="uid://bxmaoqmoeu2cv" path="res://assets/fonts/monogram.ttf" id="2_ouk20"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mae5d"]
+font = ExtResource("2_ouk20")
+font_size = 128
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -23,44 +28,38 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="VBoxContainer#Label" type="Label" parent="."]
+[node name="VBoxContainer#Label" type="Label" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-offset_left = 308.0
-offset_top = 118.0
-offset_right = 862.0
-offset_bottom = 185.0
 theme_override_font_sizes/font_size = 48
 text = "The Grumpy Blacksmith"
+label_settings = SubResource("LabelSettings_mae5d")
 horizontal_alignment = 1
 
-[node name="VBoxContainer#PlayButton" type="Button" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer#PlayButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-offset_left = 483.0
-offset_top = 242.0
-offset_right = 683.0
-offset_bottom = 292.0
 action_mode = 0
 text = "Play"
+flat = true
 
-[node name="VBoxContainer#OptionsButton" type="Button" parent="."]
+[node name="VBoxContainer#OptionsButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-offset_left = 482.0
-offset_top = 324.0
-offset_right = 682.0
-offset_bottom = 374.0
 text = "Options"
+flat = true
 
-[node name="VBoxContainer#ExitButton" type="Button" parent="."]
+[node name="VBoxContainer#ExitButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-offset_left = 481.0
-offset_top = 407.0
-offset_right = 681.0
-offset_bottom = 457.0
 text = "Exit"
+flat = true
 
-[connection signal="pressed" from="VBoxContainer#PlayButton" to="." method="_on_v_box_container_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer#OptionsButton" to="." method="_on_v_box_container_options_button_pressed"]
-[connection signal="pressed" from="VBoxContainer#ExitButton" to="." method="_on_v_box_container_exit_button_pressed"]
+[node name="TextureButton" type="TextureButton" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/VBoxContainer#PlayButton" to="." method="_on_v_box_container_play_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/VBoxContainer#OptionsButton" to="." method="_on_v_box_container_options_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/VBoxContainer#ExitButton" to="." method="_on_v_box_container_exit_button_pressed"]

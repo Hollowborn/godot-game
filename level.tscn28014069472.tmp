@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://c7a2wxy73qjrg"]
+[gd_scene load_steps=54 format=3 uid="uid://c7a2wxy73qjrg"]
 
 [ext_resource type="Script" uid="uid://bvgrnamj8qykk" path="res://level.gd" id="1_ait7k"]
 [ext_resource type="PackedScene" uid="uid://dq06tkbxkyap6" path="res://player.tscn" id="1_u52ul"]
@@ -14,11 +14,8 @@
 [ext_resource type="Script" uid="uid://c564ehcckwp0g" path="res://repair_zone.gd" id="12_dtg4e"]
 [ext_resource type="PackedScene" uid="uid://difapg13h16pl" path="res://assets/buildings/blue/building_market_blue.gltf" id="13_8b0r0"]
 [ext_resource type="PackedScene" uid="uid://llmklwfx432k" path="res://assets/buildings/blue/building_well_blue.gltf" id="13_v7sqt"]
-[ext_resource type="AudioStream" uid="uid://bxdjgdg5nvffh" path="res://assets/music/sfx/complete.mp3" id="14_0mnfp"]
 [ext_resource type="PackedScene" uid="uid://cmvshp5gmb4uj" path="res://assets/buildings/blue/building_home_B_blue.gltf" id="14_fedht"]
-[ext_resource type="AudioStream" uid="uid://db7q80ccqqrns" path="res://assets/music/sfx/denied.wav" id="15_qw2y7"]
 [ext_resource type="PackedScene" uid="uid://d3y4x506a7b8" path="res://cloud_spawner.tscn" id="15_v5j5c"]
-[ext_resource type="AudioStream" uid="uid://tjqxstwwoxfp" path="res://assets/music/sfx/use.wav" id="16_uuqa8"]
 [ext_resource type="PackedScene" uid="uid://jljc51pnxa6f" path="res://assets/decoration/nature/mountain_C_grass_trees.gltf" id="17_ilwjd"]
 [ext_resource type="PackedScene" uid="uid://cd4lhsbl73h2l" path="res://assets/decoration/props/ladder.gltf" id="17_v7sqt"]
 [ext_resource type="PackedScene" uid="uid://cs3e08w0jihe3" path="res://hud.tscn" id="18_4c15r"]
@@ -179,13 +176,8 @@ glow_enabled = true
 size = Vector3(4.58478, 4.79218, 3.2869)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ut2i6"]
-height = 4.0166
-radius = 2.59912
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ut2i6"]
-gravity = Vector3(0, 10, 0)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_0mnfp"]
+height = 4.22754
+radius = 2.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y3bce"]
 size = Vector3(4.57794, 2.47375, 9.55518)
@@ -309,13 +301,10 @@ transform = Transform3D(0.00452036, 0, -0.99999, 0, 1, 0, 0.99999, 0, 0.00452036
 
 [node name="buildings" type="Node3D" parent="SubViewportContainer/SubViewport"]
 
-[node name="home" type="StaticBody3D" parent="SubViewportContainer/SubViewport/buildings" node_paths=PackedStringArray("mesh_destroyed", "mesh_repaired", "repair_particles")]
+[node name="home" type="StaticBody3D" parent="SubViewportContainer/SubViewport/buildings"]
 collision_layer = 32
 collision_mask = 0
 script = ExtResource("9_ut2i6")
-mesh_destroyed = NodePath("destroyed")
-mesh_repaired = NodePath("repaired")
-repair_particles = NodePath("particles")
 
 [node name="destroyed" parent="SubViewportContainer/SubViewport/buildings/home" instance=ExtResource("12_aicyk")]
 transform = Transform3D(4.43505, 0, 2.30874, 0, 5, 0, -2.30874, 0, 4.43505, -22.9618, 0.135121, -18.1009)
@@ -333,34 +322,21 @@ transform = Transform3D(-0.589161, 0, -4.96517, 0, 5, 0, 4.96517, 0, -0.589161, 
 
 [node name="Area3D" type="Area3D" parent="SubViewportContainer/SubViewport/buildings/home/flag"]
 transform = Transform3D(-0.0235664, 0, 0.198607, 0, 0.2, 0, -0.198607, 0, -0.0235664, 2.65968, -0.137078, -3.47787)
-collision_layer = 64
 script = ExtResource("12_dtg4e")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/buildings/home/flag/Area3D"]
-transform = Transform3D(1, 0, -1.49012e-08, 0, 1, 0, 1.49012e-08, 0, 1, -15.4551, 2.56299, -15.2992)
+transform = Transform3D(1, 0, -1.49012e-08, 0, 1, 0, 1.49012e-08, 0, 1, -15.4551, 1.60986, -15.2992)
 shape = SubResource("CylinderShape3D_ut2i6")
 
 [node name="Label3D" type="Label3D" parent="SubViewportContainer/SubViewport/buildings/home/flag/Area3D"]
-transform = Transform3D(-0.339214, 0, 0.940709, 0, 1, 0, -0.940709, 0, -0.339214, -15.5437, 2.62904, -15.1436)
+transform = Transform3D(-0.339214, 0, 0.940709, 0, 1, 0, -0.940709, 0, -0.339214, 0.10718, 0.509361, -0.144353)
+visible = false
 billboard = 1
 text = "[E] Repair House (20 Wood)"
-font_size = 128
 
 [node name="particles" type="GPUParticles3D" parent="SubViewportContainer/SubViewport/buildings/home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.7567, 5.16092, -17.9993)
-visible = false
-trail_lifetime = 1.0
-process_material = SubResource("ParticleProcessMaterial_ut2i6")
-draw_pass_1 = SubResource("CylinderMesh_0mnfp")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport/buildings/home"]
-stream = ExtResource("14_0mnfp")
-
-[node name="error" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport/buildings/home"]
-stream = ExtResource("15_qw2y7")
-
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport/buildings/home"]
-stream = ExtResource("16_uuqa8")
 
 [node name="market" type="StaticBody3D" parent="SubViewportContainer/SubViewport/buildings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.33257, 0, 14.9149)

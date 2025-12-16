@@ -10,3 +10,4 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		
 		# Optional: Add a "pop" sound or particle effect here before deleting
 		queue_free() # Replace with function body.
+		

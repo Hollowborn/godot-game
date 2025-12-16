@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cs3e08w0jihe3"]
+[gd_scene load_steps=2 format=3 uid="uid://cs3e08w0jihe3"]
 
 [ext_resource type="Script" uid="uid://d0mlooy1sv8s2" path="res://hud.gd" id="1_8sq4i"]
-[ext_resource type="Texture2D" uid="uid://diq6yyjiunjgi" path="res://assets/resources/Wood Resource.png" id="1_64ctp"]
-[ext_resource type="Texture2D" uid="uid://2dkiwrljnoq4" path="res://assets/resources/Meat Resource.png" id="2_8sq4i"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_8sq4i")
@@ -10,22 +8,24 @@ script = ExtResource("1_8sq4i")
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(0.4, 0.4)
+offset_right = 2316.0
+offset_bottom = 1300.0
+scale = Vector2(0.5, 0.5)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 0
-offset_right = 102.0
-offset_bottom = 132.0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = 130.0
+offset_bottom = 74.0
 alignment = 2
 
 [node name="wood" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 
-[node name="icon" type="TextureRect" parent="Control/VBoxContainer/wood"]
+[node name="Label" type="Label" parent="Control/VBoxContainer/wood"]
 layout_mode = 2
-texture = ExtResource("1_64ctp")
+text = "Wood:"
 
 [node name="text" type="Label" parent="Control/VBoxContainer/wood"]
 layout_mode = 2
@@ -34,11 +34,10 @@ text = "0/50"
 [node name="meat" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 
-[node name="icon" type="TextureRect" parent="Control/VBoxContainer/meat"]
+[node name="Label" type="Label" parent="Control/VBoxContainer/meat"]
 layout_mode = 2
-texture = ExtResource("2_8sq4i")
+text = "Meat:"
 
 [node name="text" type="Label" parent="Control/VBoxContainer/meat"]
 layout_mode = 2
-text = "0/0
-"
+text = "0/0"

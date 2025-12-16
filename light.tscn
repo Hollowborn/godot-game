@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cbk2ecjh5rxau"]
+[gd_scene load_steps=13 format=3 uid="uid://cbk2ecjh5rxau"]
 
 [ext_resource type="Script" uid="uid://doy1xlca7054g" path="res://omni_light_3d.gd" id="1_5qqhr"]
 [ext_resource type="PackedScene" uid="uid://dgobqfsa6f33u" path="res://assets/resources/Wood_Log_A.gltf" id="1_hdgcg"]
 [ext_resource type="PackedScene" uid="uid://c0ir2w4re4l78" path="res://assets/resources/Stone_Chunks_Small.gltf" id="2_we4ua"]
+[ext_resource type="Script" uid="uid://nvsnnx2vktje" path="res://fire_manager.gd" id="4_njlvs"]
 
 [sub_resource type="Gradient" id="Gradient_we4ua"]
 colors = PackedColorArray(0.869533, 0.652262, 0.306518, 1, 0.548244, 0.176166, 0.160655, 1)
@@ -45,18 +46,23 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_njlvs")
 size = Vector2(0.3, 0.3)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_esukd"]
+height = 4.90479
+radius = 2.479
+
 [node name="light" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.92539, 0)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="light" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.846241, 0)
 light_color = Color(0.817709, 0.459983, 0.186034, 1)
-light_energy = 10.145
-light_indirect_energy = 1.585
+light_energy = 16.0
+light_indirect_energy = 5.292
+light_volumetric_fog_energy = 1.78
 light_size = 1.0
 script = ExtResource("1_5qqhr")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="particles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.673495, 0)
 trail_enabled = true
 process_material = SubResource("ParticleProcessMaterial_we4ua")
@@ -117,3 +123,18 @@ transform = Transform3D(0.692403, -0.0508571, 0.167404, 0.0114392, 0.695026, 0.1
 
 [node name="Stone_Chunks_Small8" parent="MeshInstance3D" instance=ExtResource("2_we4ua")]
 transform = Transform3D(0.0730384, 0.161857, -0.691738, 0.0114392, 0.695025, 0.163834, 0.710329, -0.0278354, 0.0684884, 1.0266, -0.216626, 0.85173)
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 64
+script = ExtResource("4_njlvs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45239, -0.0766673)
+shape = SubResource("CylinderShape3D_esukd")
+
+[node name="Label3D" type="Label3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.47138, 0)
+visible = false
+billboard = 1
+text = "[E] to toggle fire"
+font_size = 128

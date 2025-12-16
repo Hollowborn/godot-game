@@ -8,11 +8,13 @@ extends StaticBody3D
 
 func take_damage():
 	health -= 1
-	print('damaged')
+	$tree_hit.play()
 	if health <= 0:
-		fall_and_die() # New function for the death sequence
+		fall_and_die()
+		$tree_impact.play() # New function for the death sequence
 	else:
 		# The standard "Hurt" wobble
+		
 		var tween = create_tween()
 		tween.tween_property(mesh, "scale", Vector3(1.2, 0.8, 1.2), 0.1)
 		tween.tween_property(mesh, "scale", Vector3(1.0, 1.0, 1.0), 0.1)
@@ -31,12 +33,15 @@ func fall_and_die():
 	await tween.finished
 	
 	# 4. NOW spawn the logs and disappear
+	
 	spawn_logs()
+	
 	queue_free()
 
 func spawn_logs():
 	for i in range(3):
 		var log_instance = log_scene.instantiate()
+		$log_land.play()
 		get_parent().add_child(log_instance)
 		
 		# Adjusted height to 2.0 (approx bear head height)
