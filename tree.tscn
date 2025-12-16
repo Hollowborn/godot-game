@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://drgtqsgbt0sq8"]
+[gd_scene load_steps=7 format=3 uid="uid://drgtqsgbt0sq8"]
 
 [ext_resource type="PackedScene" uid="uid://ckcvgp8vhieqt" path="res://assets/natrue/Tree_1_A_Color1.gltf" id="1_brfkd"]
 [ext_resource type="Script" uid="uid://c1ytg32ftdkp7" path="res://tree.gd" id="1_nnvrw"]
+[ext_resource type="AudioStream" uid="uid://cn6xitues8xi0" path="res://assets/music/sfx/hit.wav" id="3_gvmkm"]
+[ext_resource type="AudioStream" uid="uid://dv64n0rld7b" path="res://assets/music/sfx/impact.wav" id="4_d2g23"]
+[ext_resource type="AudioStream" uid="uid://bhi274koo6n51" path="res://assets/music/sfx/land.wav" id="5_44ud8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nnvrw"]
 radius = 0.731319
@@ -19,3 +22,14 @@ shape = SubResource("CapsuleShape3D_nnvrw")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 
 [node name="Tree_1_A_Color12" parent="MeshInstance3D" instance=ExtResource("1_brfkd")]
+
+[node name="tree_hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_gvmkm")
+pitch_scale = 0.9
+
+[node name="tree_impact" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_d2g23")
+
+[node name="log_land" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_44ud8")
+max_polyphony = 5
